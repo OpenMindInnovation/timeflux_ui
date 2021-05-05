@@ -159,7 +159,7 @@ function create_chart(id, stream, channels, theme) {
     interpolation: 'bezier'
   };
   charts[id] = new SmoothieChart(options);
-  charts[id].streamTo(document.getElementById(id), 1000);
+  charts[id].streamTo(document.getElementById(id), 100);
   for (channel of channels) {
     charts[id].addTimeSeries(series[stream][channel]['instance'], { strokeStyle: themes[theme]['foreground'], lineWidth: 2 });
   }
