@@ -64,6 +64,11 @@ var app = new Vue({
         channels = [this.selected_channel];
       }
 
+      this.add_chart_with_params(stream, channels, combine, append);
+    },
+
+    add_chart_with_params: function(stream, channels, combine, append) {
+
       // Create time series if necessary
       if (series[stream] === undefined) {
         series[stream] = {};
