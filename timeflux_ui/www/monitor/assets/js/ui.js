@@ -64,10 +64,10 @@ var app = new Vue({
         channels = [this.selected_channel];
       }
 
-      this.add_chart_with_params(stream, channels, combine, append);
+      this.add_chart_with_params(stream, channels, combine, append, null, null);
     },
 
-    add_chart_with_params: function(stream, channels, combine, append) {
+    add_chart_with_params: function(stream, channels, combine, append, title_text, subtitle_text) {
 
       // Create time series if necessary
       if (series[stream] === undefined) {
@@ -93,7 +93,12 @@ var app = new Vue({
       var chart = new Chart();
       chart.stream = stream;
       chart.channels = channels;
-      chart.title = stream;
+      if(title_text == null){
+        chart.title = stream;
+      }
+      else{
+        chart.title = title_text
+      }
       if (append) {
         chart.height = 50;
         for (channel of channels) {
@@ -109,10 +114,10 @@ var app = new Vue({
       // Create charts and bind series
       if (append) {
         for (channel of channels) {
-          create_chart(id + '_' + channel, stream, [channel], 'light');
+          create_chart(id + '_' + channel, stream, [channel], 'light', subtitle_text);
         }
       } else {
-        create_chart(id, stream, channels, 'light');
+        create_chart(id, stream, channels, 'light', subtitle_text);
       }
     },
 
@@ -127,7 +132,7 @@ var app = new Vue({
 })
 
 
-function create_chart(id, stream, channels, theme) {
+function create_chart(id, stream, channels, theme, subtitle_text) {
   themes = {
     'dark': {
       'background': 'rgb(54, 54, 54)',
@@ -140,6 +145,11 @@ function create_chart(id, stream, channels, theme) {
       'grid': '#dbdbdb'
     }
   }
+
+  if(subtitle_text == null){
+    subtitle_text = channels.length == 1 ? channels[0] : ''
+  }
+
   options = {
     maxValueScale: 1.2,
     minValueScale: 1.2,
@@ -157,7 +167,7 @@ function create_chart(id, stream, channels, theme) {
     },
     title: {
       fillStyle: themes[theme].foreground,
-      text: channels.length == 1 ? channels[0] : '',
+      text: subtitle_text,
       fontSize: 21,
       verticalAlign: 'top'
     },
