@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="has-navbar-fixed-top">
+<html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,26 +10,8 @@
   <body>
     <div id="app">
 
-      <!-- Header -->
-      <nav class="navbar is-fixed-top is-dark">
-        <div class="navbar-brand">
-          <a class="navbar-item" href="https://timeflux.io">
-            <span><i class="fas fa-lg fa-signature"></i></span>&nbsp;<strong>Timeflux UI</strong>
-          </a>
-        </div>
-        <div class="navbar-menu">
-          <div class="navbar-end">
-            <p class="navbar-item ">
-              v0.1
-            </p>
-            <p class="navbar-item ">
-              <span class="icon" v-bind:class="[connected ? 'has-text-success' : 'has-text-danger']">
-                <i class="fas fa-lg fa-power-off"></i>
-              </span>
-            </p>
-          </div>
-        </div>
-      </nav>
+
+
 
       <section id="main" ref="main">
 
@@ -68,34 +50,6 @@
                   <div class="control">
                     <button class="button is-info" :disabled="selected_channel === undefined" v-on:click="add_chart">
                       Display
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Events -->
-          <div class="column" id="events">
-            <div class="panel">
-              <p class="panel-heading">Events</p>
-              <div class="panel-block">
-                <div class="field is-grouped">
-                  <div class="control">
-                    <div class="select">
-                      <select v-model="selected_event">
-                        <option v-for="event in events" v-bind:value="event">
-                          {{ event }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="control">
-                    <input class="input" type="text" v-model="event_data">
-                  </div>
-                  <div class="control">
-                    <button v-on:click="send_event" class="button is-info">
-                      Send
                     </button>
                   </div>
                 </div>
