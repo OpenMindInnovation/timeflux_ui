@@ -105,7 +105,7 @@ var app = new Vue({
           chart.ids.push(id + '_' + channel);
         }
       } else {
-        chart.height = 200;
+        chart.height = 100;
         chart.ids.push(id);
       }
       chart.$mount();
