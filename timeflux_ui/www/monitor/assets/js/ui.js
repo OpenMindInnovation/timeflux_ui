@@ -109,7 +109,7 @@ var app = new Vue({
         chart.ids.push(id);
       }
       chart.$mount();
-      this.$refs.main.appendChild(chart.$el)
+      this.$refs.main.insertBefore(chart.$el, this.$refs.controller)
 
       // Create charts and bind series
       if (append) {
