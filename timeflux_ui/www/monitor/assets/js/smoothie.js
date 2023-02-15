@@ -1093,6 +1093,10 @@
     return pad2(date.getHours()) + ':' + pad2(date.getMinutes()) + ':' + pad2(date.getSeconds());
   };
 
+  SmoothieChart.prototype.setMillisPerPixel = function(value) {
+    this.options.millisPerPixel = value;
+  };
+
   exports.TimeSeries = TimeSeries;
   exports.SmoothieChart = SmoothieChart;
 

@@ -2,6 +2,7 @@ var io = new IO();
 
 var charts = {}
 var series = {}
+var last_millis_per_pixel = 10
 
 var Chart = Vue.extend({
   data: function() {
@@ -64,10 +65,10 @@ var app = new Vue({
         channels = [this.selected_channel];
       }
 
-      this.add_chart_with_params(stream, channels, combine, append, null, null);
+      this.add_chart_with_params(stream, channels, combine, append, null, null, last_millis_per_pixel);
     },
 
-    add_chart_with_params: function(stream, channels, combine, append, title_text, subtitle_text) {
+    add_chart_with_params: function(stream, channels, combine, append, title_text, subtitle_text, millis_per_pixel) {
 
       // Create time series if necessary
       if (series[stream] === undefined) {
@@ -114,11 +115,12 @@ var app = new Vue({
       // Create charts and bind series
       if (append) {
         for (channel of channels) {
-          create_chart(id + '_' + channel, stream, [channel], 'light', subtitle_text);
+          create_chart(id + '_' + channel, stream, [channel], 'light', subtitle_text, millis_per_pixel);
         }
       } else {
-        create_chart(id, stream, channels, 'light', subtitle_text);
+        create_chart(id, stream, channels, 'light', subtitle_text, millis_per_pixel);
       }
+      last_millis_per_pixel = millis_per_pixel;
     },
 
     send_event: function() {
@@ -126,13 +128,20 @@ var app = new Vue({
         io.event(this.selected_event, this.event_data);
       }
 
+    },
+
+    set_millis_per_pixel: function(value){
+        last_millis_per_pixel = value;
+        for (const [id, chart] of Object.entries(charts)) {
+          chart.setMillisPerPixel(value);
+        }
     }
 
   }
 })
 
 
-function create_chart(id, stream, channels, theme, subtitle_text) {
+function create_chart(id, stream, channels, theme, subtitle_text, millis_per_pixel) {
   themes = {
     'dark': {
       'background': 'rgb(54, 54, 54)',
@@ -160,7 +169,7 @@ function create_chart(id, stream, channels, theme, subtitle_text) {
       borderVisible: false
     },
     responsive: true,
-    millisPerPixel: 10,
+    millisPerPixel: millis_per_pixel,
     limitFPS: 50,
     labels: {
       fillStyle: themes[theme].foreground
